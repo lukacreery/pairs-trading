@@ -1,13 +1,17 @@
 # Pairs Trading Algorithm
 
-A quantitative pairs trading system built in Python that identifies 
-statistical arbitrage opportunities across 10 correlated stock pairs.
+A quantitative statistical arbitrage system built in Python that identifies 
+and validates trading opportunities across 10 correlated stock pairs.
 
 ## What it does
-- Pulls live daily price data for 10 carefully selected stock pairs
+- Pulls live daily price data for 10 validated stock pairs
 - Calculates a z-score for each pair based on 3 years of historical data
 - Prints a morning dashboard with actionable trade signals
-- Identifies when two correlated stocks have diverged beyond normal ranges
+- Backtests each pair from 2020 to today to validate historical profitability
+
+## Files
+- `dashboard.py` — run every morning to get today's live trade signals
+- `pairs.py` — full backtest showing historical P&L for all 10 pairs
 
 ## Trade Signal Logic
 - Z-score > 2: Strong sell the outperformer, buy the underperformer
@@ -16,19 +20,29 @@ statistical arbitrage opportunities across 10 correlated stock pairs.
 - Z-score < -2: Strong buy the underperformer, sell the outperformer
 - Z-score between -1 and 1: No trade
 
-## Pairs Monitored
-| Pair | Tickers |
-|------|---------|
-| Visa / Mastercard | V, MA |
-| Coca-Cola / Pepsi | KO, PEP |
-| JPMorgan / Bank of America | JPM, BAC |
-| Exxon / Chevron | XOM, CVX |
-| Nike / Adidas | NKE, ADDYY |
-| McDonald's / Yum Brands | MCD, YUM |
-| Apple / Microsoft | AAPL, MSFT |
-| Amazon / Walmart | AMZN, WMT |
-| Gold / Silver | GLD, SLV |
-| S&P 500 / Nasdaq | SPY, QQQ |
+## Validated Pairs & Backtest Results (2020–2026)
+| Pair | Tickers | Backtest P&L |
+|------|---------|-------------|
+| Visa / Mastercard | V, MA | $938 |
+| Exxon / Chevron | XOM, CVX | $2,612 |
+| Nike / Adidas | NKE, ADDYY | $60,252 |
+| McDonald's / Yum Brands | MCD, YUM | $7,744 |
+| S&P 500 / Nasdaq | SPY, QQQ | $7,429 |
+| AMD / Nvidia | AMD, NVDA | $1,805,710 |
+| Uber / Lyft | UBER, LYFT | $331,583 |
+| Costco / Walmart | COST, WMT | $237,178 |
+| Goldman Sachs / Morgan Stanley | GS, MS | $30,240 |
+| Netflix / Disney | NFLX, DIS | $27,910 |
+
+## Methodology
+Pairs are selected based on business model similarity and historical 
+correlation. The z-score measures how far the current price ratio has 
+deviated from its 3-year historical mean. Strategy was backtested across 6 years of data (2020-2026) to vaildate profitability. Trades are entered when the 
+z-score exceeds ±1 and closed when it reverts to near zero.
+
+Unprofitable pairs were identified through backtesting and removed. 
+The final 10 pairs were all validated as historically profitable before 
+being included in the live dashboard. Pairs will be continuously monitored and updated.
 
 ## Tech Stack
 - Python 3.14
@@ -40,12 +54,12 @@ statistical arbitrage opportunities across 10 correlated stock pairs.
 ## How to Run
 ```bash
 pip3 install pandas yfinance numpy matplotlib statsmodels
-python3 pairs.py
+python3 dashboard.py
 ```
 
 ## Project Status
-Active — signals checked and logged daily. Strategy being expanded 
-with backtesting, additional pairs, and automated alerting.
+Active — signals checked and logged daily. Next steps include automated 
+alerting, position sizing, and a public newsletter documenting live signals. More pairs will be added as time goes on.
 
 ## Author
 Built as an independent quantitative finance project to explore 
